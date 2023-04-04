@@ -2,130 +2,148 @@
 @section('js')
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.js" integrity="sha512-zrRn+TvTc4KgDOtlKOgThphx1DGCZ8zR/xGWtG/WiKp6G+/xUBWow3p2lWu8DHfdHYWfwvIY0I89b3q22POHSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.js"
+        integrity="sha512-zrRn+TvTc4KgDOtlKOgThphx1DGCZ8zR/xGWtG/WiKp6G+/xUBWow3p2lWu8DHfdHYWfwvIY0I89b3q22POHSw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- cropperjs  -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js" integrity="sha512-ooSWpxJsiXe6t4+PPjCgYmVfr1NS5QXJACcR/FPpsdm6kqG1FmQ2SVyg2RXeVuCRBLr0lWHnWJP6Zs1Efvxzww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-@endsection   
-<?php
-$ratio = 4/5;
-$width = 200;
-$height = $width/$ratio;
-?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"
+        integrity="sha512-ooSWpxJsiXe6t4+PPjCgYmVfr1NS5QXJACcR/FPpsdm6kqG1FmQ2SVyg2RXeVuCRBLr0lWHnWJP6Zs1Efvxzww=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+@endsection
+@php
+    $ratio = 4 / 5;
+    $width = 200;
+    $height = $width / $ratio;
+@endphp
 @section('css')
-<!-- cropper -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" integrity="sha512-0SPWAwpC/17yYyZ/4HSllgaK7/gg9OlVozq8K7rf3J8LvCjYEEIfzzpnA2/SSjpGIunCSD18r3UhvDcu/xncWA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.css" integrity="sha512-ecfz7BsZIyMBMdXTx7GU2128lQ7MTiqGJwAqCumba6v8y7YDhYEHueqy+iUtUdZsnsKhCyoCcFGGMhpwQOy6xg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-<style>
-.label {
-  cursor: pointer;
-}
+    <!-- cropper -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"
+        integrity="sha512-0SPWAwpC/17yYyZ/4HSllgaK7/gg9OlVozq8K7rf3J8LvCjYEEIfzzpnA2/SSjpGIunCSD18r3UhvDcu/xncWA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.css"
+        integrity="sha512-ecfz7BsZIyMBMdXTx7GU2128lQ7MTiqGJwAqCumba6v8y7YDhYEHueqy+iUtUdZsnsKhCyoCcFGGMhpwQOy6xg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-.progress {
-  display: none;
-  margin-bottom: 1rem;
-}
+    <style>
+        .label {
+            cursor: pointer;
+        }
+
+        .progress {
+            display: none;
+            margin-bottom: 1rem;
+        }
 
 
-.img-container img {
-  max-width: 100%;
-}
+        .img-container img {
+            max-width: 100%;
+        }
 
-.image_wrapper {
-  width: <?php echo $width ?>px;
-  height: <?php echo $height ?>px;
-}
+        .image_wrapper {
+            width: <?php echo $width; ?>px;
+            height: <?php echo $height; ?>px;
+        }
 
-.image_wrapper img {
-  width: 100%;
-}
+        .image_wrapper img {
+            width: 100%;
+        }
 
-.croppingPreview {
-  width: 50px;
-  height: 50px;
-  overflow: hidden;
-}
-</style>
-
+        .croppingPreview {
+            width: 50px;
+            height: 50px;
+            overflow: hidden;
+        }
+    </style>
 @endsection
 
 @section('content')
-<div class="container" style="overflow:hidden;">
-  <div>
-    <div class="row">
-      <div class="col-md-6 mx-auto">
-		@if ($message = session('success'))
-	        <div class="alert alert-success alert-dismissible fade show" role="alert">
-	        <div class="text-center h3" ><strong>Success!</strong></div>
-	            {{ $message }}
-	            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-	        </div>
-		@endif
+    <div class="container" style="overflow:hidden;">
+        <div>
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    @if ($message = session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <div class="text-center h3"><strong>Success!</strong></div>
+                            {{ $message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
 
-      <div class="card" >
-      <div class="card-header" >
-      <div class="d-flex justify-content-between align-items-center" >
-      <p class="card-title">Crop & upload image</p>
-      <a class="btn btn-primary"  href="{{ route('admitCard.index') }}" >
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
-      <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
-      <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
-      </svg> &nbsp; 
-      Student List
-      </a>
-      </div>
-      </div>
-      
-        <!--<div class="croppingPreview border"></div>-->
-        <div class="collapse show " id="preview">
-          <div class="card card-body">
-            <h3>Image preview</h3>
-            <div class="image_wrapper border">
-              <label class="label" data-toggle="tooltip" title="Change image">
-                <img id="avatar" src="@if($admitCard->image == null) {{asset('images/web/select-an-image.webp')}} @else {{asset('uploads/images/students/'.$admitCard->image)}} @endif" alt="crop image">
-                <!--<img id="avatar" src="https://skwebs.github.io/cropper-and-php/assets/img/select-an-image.jpg" alt="crop image" >-->
-                <input type="file" class="visually-hidden" id="input" name="image" accept="image/png,image/jpeg,">
-              </label>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <p class="card-title">Crop & upload image</p>
+                                <a class="btn btn-primary" href="{{ route('admitCard.index') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                                        <path
+                                            d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z" />
+                                        <path
+                                            d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z" />
+                                    </svg> &nbsp;
+                                    Student List
+                                </a>
+                            </div>
+                        </div>
+
+                        <!--<div class="croppingPreview border"></div>-->
+                        <div class="collapse show " id="preview">
+                            <div class="card card-body">
+                                <h3>Image preview</h3>
+                                <div class="image_wrapper border">
+                                    <label class="label" data-toggle="tooltip" title="Change image">
+                                        <img id="avatar"
+                                            src="@if ($admitCard->image == null) {{ asset('images/static/select-an-image.webp') }} @else {{ asset('uploads/images/students/' . $admitCard->image) }} @endif"
+                                            alt="crop image">
+                                        <!--<img id="avatar" src="https://skwebs.github.io/cropper-and-php/assets/img/select-an-image.jpg" alt="crop image" >-->
+                                        <input type="file" class="visually-hidden" id="input" name="image"
+                                            accept="image/png,image/jpeg,">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collapse" id="cropSec">
+                            <div class="card card-body">
+                                <h3>Crop</h3>
+                                <div class="image_wrapper border">
+                                    <img id="image"
+                                        src="https://skwebs.github.io/cropper-and-php/assets/img/select-an-image.jpg"
+                                        alt="crop image">
+                                </div>
+                                <div class="d-flex pt-4">
+                                    <button type="button" id="cropCancelBtn" class="btn btn-secondary mx-5">Cancel</button>
+                                    <button type="button" class="btn btn-primary" id="crop">Crop</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="collapse" id="cropSec">
-          <div class="card card-body">
-            <h3>Crop</h3>
-            <div class="image_wrapper border">
-              <img id="image" src="https://skwebs.github.io/cropper-and-php/assets/img/select-an-image.jpg" alt="crop image">
-            </div>
-            <div class="d-flex pt-4">
-              <button type="button" id="cropCancelBtn" class="btn btn-secondary mx-5">Cancel</button>
-              <button type="button" class="btn btn-primary" id="crop">Crop</button>
-            </div>
-          </div>
+
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0"
+                aria-valuemin="0" aria-valuemax="100">0%</div>
         </div>
-        
+        <div>
+
+            <a class="btn btn-primary mt-4" href="{{ route('admitCard.create') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                    class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+                    <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                    <path fill-rule="evenodd"
+                        d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+                </svg> &nbsp;
+                Add New Student</a>
+            <!--<fieldset>
+                      <legend>Console output</legend>
+                      <div id="console_out"></div>
+                    </fieldset>
+                    -->
         </div>
-      </div>
     </div>
-  </div>
-  
-  <div class="progress">
-    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-  </div>
-  <div>
-  
-  <a class="btn btn-primary mt-4"  href="{{ route('admitCard.create')}}" >
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
-  <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-  <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
-  </svg> &nbsp;
-  Add New Student</a>
-    <!--<fieldset>
-      <legend>Console output</legend>
-      <div id="console_out"></div>
-    </fieldset>
-    -->
-  </div>
-</div>
-<script type="module">
+    <script type="module">
   "use strict";
   /*if (!window.console) console = {};
   var console_out = document.getElementById("console_out");
@@ -133,7 +151,7 @@ $height = $width/$ratio;
 	  console_out.innerHTML += message + " < br / > ";
 	  console_out.scrollTop = console_out.scrollHeight;
   };*/
-  
+
   // "use strict";
   window.addEventListener('DOMContentLoaded', function() {
     var avatar = document.getElementById('avatar');
@@ -258,7 +276,7 @@ $height = $width/$ratio;
         }, mimeType);
       }
     });
-    // check mime type     
+    // check mime type
     function getMimeType(file) {
       var fileReaderForArrayBuffer = new FileReader();
       fileReaderForArrayBuffer.onloadend = function(evt) {
