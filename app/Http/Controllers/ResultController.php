@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreResultRequest;
 use App\Models\Result;
 use App\Models\AdmitCard;
 use Illuminate\Http\Request;
@@ -57,68 +58,35 @@ class ResultController extends Controller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request)
+	// public function store(Request $request)
+	public function store(StoreResultRequest $request)
 	{
-		// dd($request->query('redirect_to'));
-		$request->validate([
-			'admit_card_id' => 'numeric',
-			'hindi' => 'numeric',
-			'english' => 'numeric',
-			'maths' => 'numeric',
-			'drawing' => 'numeric',
-			'total' => 'numeric',
-			'full_marks' => 'numeric',
-		]);
-
-		if (!in_array($request->query('class'), $this->classes)) {
-			$request->validate([
-				'science' => 'numeric',
-				'sst' => 'numeric',
-				'science_oral' => 'numeric',
-				'sst_oral' => 'numeric',
-				'computer' => 'numeric',
-			]);
-		}
-		/*$marks = $request->only([
-	        'hindi','english','maths','drawing','science','sst','computer','science_oral','sst_oral',
-        ]);
-
-        $request->mergeIfMissing([
-        '_session' => $request->query('session'),
-        'marks' => $marks,
-        'uploaded_by_id' => auth()->user()->id
-        ]);
-        dd($request->only([
-	        'admit_card_id','_session','marks','uploaded_by_id'
-        ]));
-        */
 		$data = [
 			'admit_card_id' => $request->admit_card_id,
 			'session' => $request->query('session'),
 			'class' => $request->query('class'),
 			'roll' => $request->query('roll'),
 			'marks' => $request->only([
-				'hindi', 'english', 'maths', 'drawing', 'science', 'sst', 'computer', 'science_oral', 'sst_oral',
+				'hindi', 'english', 'maths', 'drawing', 'science', 'sst', 'computer', 'gk', 'science_oral', 'sst_oral',
 			]),
 			'total' => $request->total,
 			'total_text' => $request->total,
 			'full_marks' => $request->full_marks,
 			'uploaded_by_id' => auth()->user()->id,
 		];
-		//dd($data);
-		if (Result::where([
+
+		$r = Result::where([
 			'session' => $request->query('session'),
 			'class' => $request->query('class'),
 			'roll' => $request->query('roll')
-		])) {
+		])->first();
+
+		if ($r) {
 			return redirect($request->query('redirect_to'))
 				->with('warning', 'Result already has uploaded!');
-		}
-
+		};
 
 		Result::create($data);
-
-		//return redirect()->route('result.index')
 		return redirect($request->query('redirect_to'))
 			->with('success', 'Result uploaded successfully!');
 	}
@@ -186,6 +154,7 @@ class ResultController extends Controller
 				'science_oral' => 'numeric',
 				'sst_oral' => 'numeric',
 				'computer' => 'numeric',
+				'gk' => 'numeric',
 			]);
 		}
 
@@ -195,7 +164,7 @@ class ResultController extends Controller
 			'class' => $request->query('class'),
 			'roll' => $request->query('roll'),
 			'marks' => $request->only([
-				'hindi', 'english', 'maths', 'drawing', 'science', 'sst', 'computer', 'science_oral', 'sst_oral',
+				'hindi', 'english', 'maths', 'drawing', 'science', 'sst', 'computer', 'gk', 'science_oral', 'sst_oral',
 			]),
 			'total' => $request->total,
 			'total_text' => $request->total,
@@ -255,11 +224,16 @@ class ResultController extends Controller
 		if ($req->stu_class == "") {
 			return '<span class="text-danger">Please select a class</span>';
 		}
+		$result_count =  Result::select('id', 'roll')->where(['class' => $req->stu_class])->count();
+		if (!$result_count > 0) {
+			return '<span class="text-danger">This class has no result.</span>';
+		}
+
 		$r = Result::select('id', 'roll')->where(['class' => $req->stu_class])->orderBy('roll')->get();
 		$select = '';
 		$select = '<select id="select-roll" class="form-select">';
 		$select .= '<option value="" >Select Roll No.</option>';
-		//dd($r);
+
 		foreach ($r as $roll) {
 			$select .= '<option value="' . $roll->id . '" >' . $roll->roll . '</option>';
 		}
@@ -387,5 +361,10 @@ class ResultController extends Controller
 		$classes = $this->classes;
 
 		return view('results.all_result', compact('results', 'classes'));
+	}
+
+	public function validate_result_field(StoreResultRequest $request)
+	{
+		$request->validated();
 	}
 }

@@ -171,7 +171,7 @@ $qr .= json_encode($marks);
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!--<meta name="viewport" content="width=750, initial-scale=1.0" />
+    <meta name="viewport" content="width=750, initial-scale=1.0" />
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -228,16 +228,34 @@ $qr .= json_encode($marks);
 
         .p-sign {
             position: absolute;
-            bottom: 70px;
-            right: 70px;
-            width: 80px;
+            bottom: 60px;
+            right: 55px;
+            width: 90px;
         }
 
+        .cls-teacher-mukesh {
+            position: absolute;
+            width: 125px;
+            right: 400px;
+            bottom: 35px;
+        }
+        .cls-teacher-pooja {
+            position: absolute;
+            width: 150px;
+            right: 370px;
+            bottom: 35px;
+        }
+        .cls-teacher-sanjana {
+            position: absolute;
+            width: 120px;
+            right: 400px;
+            bottom: 35px;
+        }
         .exam-ctrl {
             position: absolute;
-            width: 170px;
-            right: 210px;
-            bottom: 20px;
+            width: 70px;
+            right: 246px;
+            bottom: 35px;
         }
     </style>
 
@@ -262,7 +280,7 @@ $qr .= json_encode($marks);
                     <tr>
                         <td style="width:75px;padding-left:10px">
                             <img class="float-end" width="75px" height="75px"
-                                src="{{ asset('images/static/ama300.webp') }}" alt="" srcset="" />
+                                src="{{ asset('images/static/ama300.webp') }}" alt="Logo" srcset="" />
                         </td>
                         <td style="width: 100%">
                             <table style="width: 100%">
@@ -289,7 +307,8 @@ $qr .= json_encode($marks);
                         </td>
                         <td style="width:75px; padding-right:10px">
                             <img class="float-start" width="75px" height="75px"
-                                src="{{ asset('images/static/bbbp300.webp') }}" alt="" srcset="" />
+                                src="{{ asset('images/static/bbbp300.webp') }}" alt="Beti Bachao Beti Padhao"
+                                srcset="" />
                         </td>
                     </tr>
                 </table>
@@ -306,7 +325,7 @@ $qr .= json_encode($marks);
                     </tr>
                     <tr>
                         <td>
-                            <h6 class="text-center">ACADEMIC SESSION : 2021-22</h6>
+                            <h6 class="text-center">ACADEMIC SESSION : 2022-23</h6>
                         </td>
                     </tr>
                 </table>
@@ -321,7 +340,7 @@ $qr .= json_encode($marks);
                         <td>{{ $stu->class }}</td>
                         <td style="p-0" rowspan="5" width="150">
                             <img class="border border-dark" width="100%"
-                                src="{{ asset('uploads/images/students/' . $stu->image) }}">
+                                src="{{ asset('uploads/images/students/' . $stu->image) }}" alt="Student Image">
                         </td>
                     </tr>
                     <tr>
@@ -418,6 +437,14 @@ $qr .= json_encode($marks);
                                         <td>NA</td>
                                         <td>{{ $result->marks->computer }}</td>
                                         <td>{{ res($result->marks->computer)['g'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-start">GK</th>
+                                        <td>100</td>
+                                        <td>{{ $result->marks->gk }}</td>
+                                        <td>NA</td>
+                                        <td>{{ $result->marks->gk }}</td>
+                                        <td>{{ res($result->marks->gk)['g'] }}</td>
                                     </tr>
                                 @endif
                                 <tr>
@@ -519,18 +546,35 @@ $qr .= json_encode($marks);
         </tr>
         <tr>
             <!-- office section -->
-            <td class="align-bottom" style="height:185px;position:relative;">
+            <td class="align-bottom" style="height:145px;position:relative;">
                 <table class="table table-sm table-borderless text-center">
                     <tr>
                         <td width="25%" class="align-bottom">{{ date('d-m-Y') }}</td>
-                        <td width="25%"></td>
-                        <td width="25%"><img class="exam-ctrl"
-                                src="https://anshumemorial.in/v2/public/images/static/chandani_roy512.webp"></td>
+                        {{-- <td width="25%"></td> --}}
                         <td width="25%">
-                            <img class="p-sign"
-                                src="https://anshumemorial.in/v2/public/images/static/principal_sign300.webp">
-                            <img class="p-seal"
-                                src="https://anshumemorial.in/v2/public/images/static/principal_seal400.webp">
+                            @if ($stu->class === 'LKG')
+                            <img class="cls-teacher-sanjana"
+                            src="{{ asset('images/static/sanjana-sign.webp') }}">
+                            @endif
+                            @if ($stu->class === 'UKG')
+                            <img class="cls-teacher-pooja"
+                            src="{{ asset('images/static/pooja-sign.webp') }}">
+                            @endif
+                            @if ($stu->class === 'Play')
+                            <img class="cls-teacher-mukesh"
+                            src="{{ asset('images/static/mukesh-sign.webp') }}">
+                            @endif
+                            @if(!in_array($stu->class, ['Play','LKG','UKG']))
+                            <img class="cls-teacher-mukul"
+                            src="{{ asset('images/static/mukul-sign.webp') }}">
+                            @endif
+                            </td>
+                        <td width="25%">
+                            <img class="exam-ctrl"
+                                src="{{ asset('images/static/mukul-sign.webp') }}"></td>
+                        <td width="25%">
+                            <img class="p-sign" src="{{ asset('images/static/principal_sign300.webp') }}">
+                            <img class="p-seal" src="{{ asset('images/static/principal_seal400.webp') }}">
                         </td>
                     </tr>
                     <tr>
