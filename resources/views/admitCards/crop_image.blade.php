@@ -13,8 +13,7 @@
 @endphp
 @section('css')
     <!-- cropper -->
-    <link rel="stylesheet" href="{{ asset('/css/cropper.min.css') }}" crossorigin="anonymous"
-        referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ asset('/css/cropper.min.css') }}" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('/css/toastify.min.css') }}" />
 
     <style>
@@ -33,8 +32,8 @@
         }
 
         .image_wrapper {
-            width: <?php echo $width; ?>px;
-            height: <?php echo $height; ?>px;
+            width: {{ $width }}px;
+            height: {{ $height }}px;
         }
 
         .image_wrapper img {
@@ -130,16 +129,16 @@
                 </svg> &nbsp;
                 Add New Student</a>
             <!--<fieldset>
-                              <legend>Console output</legend>
-                              <div id="console_out"></div>
-                            </fieldset>
-                            -->
+                                                                                              <legend>Console output</legend>
+                                                                                              <div id="console_out"></div>
+                                                                                            </fieldset>
+                                                                                            -->
         </div>
     </div>
     <script type="module">
   "use strict";
   /*if (!window.console) console = {};
-  var console_out = document.getElementById("console_out");
+  const console_out = document.getElementById("console_out");
   console.log = function(message) {
 	  console_out.innerHTML += message + " < br / > ";
 	  console_out.scrollTop = console_out.scrollHeight;
@@ -147,29 +146,29 @@
 
   // "use strict";
   window.addEventListener('DOMContentLoaded', function() {
-    var avatar = document.getElementById('avatar');
-    var image = document.getElementById('image');
-    var input = document.getElementById('input');
-    var $progress = $('.progress');
-    var $progressBar = $('.progress-bar');
-    var $alert = $('.alert');
-    var $preview = $("#preview");
-    var $cropSec = $("#cropSec");
-    var $cropCancelBtn = $("#cropCancelBtn");
-    var cropper;
-    var mimeType;
+    const avatar = document.getElementById('avatar');
+    const image = document.getElementById('image');
+    const input = document.getElementById('input');
+    const $progress = $('.progress');
+    const $progressBar = $('.progress-bar');
+    const $alert = $('.alert');
+    const $preview = $("#preview");
+    const $cropSec = $("#cropSec");
+    const $cropCancelBtn = $("#cropCancelBtn");
+    let cropper;
+    let mimeType;
     $('[data-toggle="tooltip"]').tooltip();
     input.addEventListener('change', function(e) {
-      var files = e.target.files;
-      var done = function(url) {
+      let files = e.target.files;
+      const done = function(url) {
         input.value = '';
         image.src = url;
         $alert.hide();
         $cropSec.collapse('show')
       };
-      var reader;
-      var file;
-      var url;
+      let reader;
+      let file;
+      let url;
       if (files && files.length > 0) {
         file = files[0];
         getMimeType(file);
@@ -204,20 +203,20 @@
     });
     document.getElementById('crop').addEventListener('click', function() {
       console.time('crop time');
-      var initialAvatarURL;
-      var canvas;
+      let initialAvatarURL;
+      let canvas;
       $cropSec.collapse("hide")
       if (cropper) {
         canvas = cropper.getCroppedCanvas({
-          width: 600,
-          height: 750
+          width: {{$width*1.5}},
+          height: {{$height*1.5}}
         });
         initialAvatarURL = avatar.src;
         avatar.src = canvas.toDataURL();
         $progress.show();
         $alert.removeClass('alert-success alert-warning');
         canvas.toBlob(function(blob) {
-          var formData = new FormData();
+          const formData = new FormData();
           formData.append('image', blob, 'avatar.' + mimeType.slice(6));
           formData.append('fileExt', mimeType.slice(6));
           formData.append('id', '{{$admitCard->id}}');
@@ -229,10 +228,10 @@
             contentType: false,
             dataType: 'json',
             xhr: function() {
-              var xhr = new XMLHttpRequest();
+              const xhr = new XMLHttpRequest();
               xhr.upload.onprogress = function(e) {
-                var percent = '0';
-                var percentage = '0%';
+                let percent = '0';
+                let percentage = '0%';
                 if (e.lengthComputable) {
                   percent = Math.round((e.loaded / e.total) * 100);
                   percentage = percent + '%';
@@ -248,7 +247,7 @@
                 //$alert.show().addClass('alert-success').text(JSON.stringify(res));
                 console.timeEnd('crop time');
                 console.log(res);
-                window.location.replace("{{ route('admitCard.index')}}");
+                // window.location.replace("{{ route('admitCard.index')}}");
               } else {
                 toastMsg("Something goes wrong..");
                 //$alert.show().addClass('alert-danger').text(JSON.stringify(res.errors));
@@ -271,23 +270,23 @@
     });
     // check mime type
     function getMimeType(file) {
-      var fileReaderForArrayBuffer = new FileReader();
+      const fileReaderForArrayBuffer = new FileReader();
       fileReaderForArrayBuffer.onloadend = function(evt) {
         if (evt.target.readyState === FileReader.DONE) {
-          var uInt8Array = new Uint8Array(evt.target.result);
+          const uInt8Array = new Uint8Array(evt.target.result);
           let bytes = [];
           uInt8Array.forEach((byte) => {
             bytes.push(byte.toString(16))
           });
-          var hex = bytes.join('').toUpperCase();
+          const hex = bytes.join('').toUpperCase();
           mimeType = checkMimeType(hex);
           console.log(mimeType)
         }
       };
-      var BLOB = file.slice(0, 4);
+      const BLOB = file.slice(0, 4);
       fileReaderForArrayBuffer.readAsArrayBuffer(BLOB)
     }
-    var checkMimeType = (signature) => {
+    const checkMimeType = (signature) => {
       switch (signature) {
         case '89504E47':
           return 'image/png';
