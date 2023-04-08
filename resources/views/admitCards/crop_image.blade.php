@@ -247,7 +247,7 @@
                 //$alert.show().addClass('alert-success').text(JSON.stringify(res));
                 console.timeEnd('crop time');
                 console.log(res);
-                // window.location.replace("{{ route('admitCard.index')}}");
+                window.location.replace("{{ route('admitCard.index')}}");
               } else {
                 toastMsg("Something goes wrong..");
                 //$alert.show().addClass('alert-danger').text(JSON.stringify(res.errors));
