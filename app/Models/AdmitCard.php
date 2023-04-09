@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 class AdmitCard extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $fillable = [
         'name',
         'mother',
@@ -28,11 +28,11 @@ class AdmitCard extends Model
         'created_by',
         'updated_by',
     ];
-    
+
     public function result(){
 	    return $this->hasOne(Result::class);
     }
-    
+
     /**
      * Interact with the student's name.
      *
@@ -46,7 +46,21 @@ class AdmitCard extends Model
             set: fn ($value) => ucwords(strtolower($value)),
         );
     }
-    
+
+    /**
+     * Interact with the student's name.
+     *
+     * @param  string  $value
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function dob(): Attribute
+    {
+        return Attribute::make(
+           get: fn ($value) => date('d-m-Y', strtotime($value)),
+            // set: fn ($value) => ucwords(strtolower($value)),
+        );
+    }
+
     /**
      * Interact with the student's mother name.
      *
@@ -72,7 +86,7 @@ class AdmitCard extends Model
 	        set: fn ($value) => ucwords(strtolower($value)),
 	    );
 	}
-	
+
     /**
     * Interact with the student's father name.
     *
@@ -85,15 +99,15 @@ class AdmitCard extends Model
 		    set: fn ($value) => ucwords(strtolower($value)),
 	    );
     }
-        
-    /* 
+
+    /*
     //before laravel 9
-    
+
     //accessor
     protected function getDobAttribute($value){
 	    return date('d M Y', strtotime($value));
     }
-    
+
     // mutators
     protected function setNameAttribute($value){
     	$this->attributes['name'] = ucwords(strtolower($value));
@@ -108,5 +122,5 @@ class AdmitCard extends Model
     	$this->attributes['address'] = ucwords(strtolower($value));
     }
     */
-    
+
 }

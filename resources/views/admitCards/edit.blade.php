@@ -11,7 +11,7 @@
     content:"*";
     position:relative;
     color:var(--bs-danger);
-    transform:scale(1.2)translateX(.2rem); 
+    transform:scale(1.2)translateX(.2rem);
     display:inline-block;
     font-style:normal;
     }
@@ -33,7 +33,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-4">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
@@ -49,8 +49,8 @@
                 </div>
 
                 <div class="card-body">
-                
-                
+
+
                     @if ($message = Session::get('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
 	                    <strong>{{ $message }}</strong>
@@ -79,7 +79,7 @@
                     <form method="POST" action="{{ route('admitCard.update', $admitCard->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        
+
                         <input type="hidden" name="id" value="{{$admitCard->id}}" >
                         <!-- name -->
                         <div class="row mb-3">
@@ -148,7 +148,7 @@
                                        @if( old('gender', $admitCard->gender)=='Male') checked @endif name="gender" id="male" value="Male" required autofocus>
                                     <label class="form-check-label" for="male">Male</label>
                                 </div>
-                                
+
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input @error('gender') is-invalid @enderror" type="radio"
                                         @if( old('gender', $admitCard->gender)=='Female') checked @endif name="gender" id="female" value="Female" required autofocus>
@@ -163,7 +163,7 @@
                             </div>
                         </div>
                         <!-- //gender -->
-                        
+
                         <!-- date of birth -->
                         <div class="row mb-3">
                             <label for="dob"
@@ -313,11 +313,11 @@
                                 @enderror
                             </div>
                         </div>
-                        
-                        
+
+
                         <!-- //student type -->
 
-                        <!-- image 
+                        <!-- image
                         <div class="row mb-3">
                             <label for="image" class="col-md-4 col-form-label text-md-end">{{ __('Image*') }}</label>
 
