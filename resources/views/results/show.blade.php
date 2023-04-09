@@ -239,18 +239,21 @@ $qr .= json_encode($marks);
             right: 400px;
             bottom: 35px;
         }
+
         .cls-teacher-pooja {
             position: absolute;
             width: 150px;
             right: 370px;
             bottom: 35px;
         }
+
         .cls-teacher-sanjana {
             position: absolute;
             width: 120px;
             right: 400px;
             bottom: 35px;
         }
+
         .exam-ctrl {
             position: absolute;
             width: 70px;
@@ -281,6 +284,8 @@ $qr .= json_encode($marks);
                         <td style="width:75px;padding-left:10px">
                             <img class="float-end" width="75px" height="75px"
                                 src="{{ asset('images/static/ama300.webp') }}" alt="Logo" srcset="" />
+                                {{-- <img class="float-end" width="75px" height="66px"
+                                src="{{ asset('images/static/ama-150x133-96.png') }}" alt="Logo" srcset="" /> --}}
                         </td>
                         <td style="width: 100%">
                             <table style="width: 100%">
@@ -339,8 +344,11 @@ $qr .= json_encode($marks);
                         <td>:</td>
                         <td>{{ $stu->class }}</td>
                         <td style="p-0" rowspan="5" width="150">
+                            {{-- src="{{ asset('uploads/images/students/' . $stu->image) }}" --}}
                             <img class="border border-dark" width="100%"
-                                src="{{ asset('uploads/images/students/' . $stu->image) }}" alt="Student Image">
+                                src="@if ($stu->image === "") {{ asset('images/static/paste-image.webp') }} @else {{ asset('uploads/images/students/' . $stu->image) }} @endif"
+                                alt="Student Image">
+                                {{-- {{$stu->image}} --}}
                         </td>
                     </tr>
                     <tr>
@@ -553,25 +561,22 @@ $qr .= json_encode($marks);
                         {{-- <td width="25%"></td> --}}
                         <td width="25%">
                             @if ($stu->class === 'LKG')
-                            <img class="cls-teacher-sanjana"
-                            src="{{ asset('images/static/sanjana-sign.webp') }}">
+                                <img class="cls-teacher-sanjana"
+                                    src="{{ asset('images/static/sanjana-sign.webp') }}">
                             @endif
                             @if ($stu->class === 'UKG')
-                            <img class="cls-teacher-pooja"
-                            src="{{ asset('images/static/pooja-sign.webp') }}">
+                                <img class="cls-teacher-pooja" src="{{ asset('images/static/pooja-sign.webp') }}">
                             @endif
                             @if ($stu->class === 'Play')
-                            <img class="cls-teacher-mukesh"
-                            src="{{ asset('images/static/mukesh-sign.webp') }}">
+                                <img class="cls-teacher-mukesh" src="{{ asset('images/static/mukesh-sign.webp') }}">
                             @endif
-                            @if(!in_array($stu->class, ['Play','LKG','UKG']))
-                            <img class="cls-teacher-mukul"
-                            src="{{ asset('images/static/mukul-sign.webp') }}">
+                            @if (!in_array($stu->class, ['Play', 'LKG', 'UKG']))
+                                <img class="cls-teacher-mukul" src="{{ asset('images/static/mukul-sign.webp') }}">
                             @endif
-                            </td>
+                        </td>
                         <td width="25%">
-                            <img class="exam-ctrl"
-                                src="{{ asset('images/static/mukul-sign.webp') }}"></td>
+                            <img class="exam-ctrl" src="{{ asset('images/static/mukul-sign.webp') }}">
+                        </td>
                         <td width="25%">
                             <img class="p-sign" src="{{ asset('images/static/principal_sign300.webp') }}">
                             <img class="p-seal" src="{{ asset('images/static/principal_seal400.webp') }}">

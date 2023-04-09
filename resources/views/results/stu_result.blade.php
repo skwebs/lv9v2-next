@@ -15,9 +15,9 @@
         }
 
         /*body{
-        filter: blur(8px);
-          -webkit-filter: blur(8px);
-        }*/
+                filter: blur(8px);
+                  -webkit-filter: blur(8px);
+                }*/
     </style>
 @endsection
 @section('meta')
@@ -29,7 +29,7 @@
 @endphp
 @section('content')
     <!-- instruction -->
-    <div class="container mt-4">
+    <div style="max-width: 700px" class="container mt-4">
         <div class="card">
             <div class="card-header">
                 Instruction / निर्देश
@@ -60,37 +60,38 @@
                 </ol>
             </div>
         </div>
-    </div>
 
-    <div class="res p-4 row">
-        <div class="col-md-6 mx-auto">
-            <div class="row gy-2">
-                <div class="col-6">
-                    <select id="class" class="form-select">
-                        <option value="">Select Class</option>
-                        @foreach ($classes as $c)
-                            <option value="{{ $c }}">{{ $c }}</option>
-                        @endforeach
-                    </select>
+
+        <div class="res p-4 row">
+            <div class="col mx-auto">
+                <div class="row gy-2">
+                    <div class="col">
+                        <label for="class">Class</label>
+                        <select id="class" class="form-select">
+                            <option disabled selected value="">Select Class</option>
+                            @foreach ($class as $c)
+                                <option value="{{ $c }}">{{ $c }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col" id="select-roll-wrap"></div>
                 </div>
-                <div class="col-6" id="select-roll-wrap"></div>
             </div>
         </div>
-    </div>
-    <!-- on page marksheet -->
-    <div id="ms"></div>
-    <!-- loading -->
-    <div class="loading">
-        <div class="pb-2 pt-3 px-3 rounded shadow bg-light">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
+        <!-- on page marksheet -->
+        <div id="ms"></div>
+        <!-- loading -->
+        <div class="loading">
+            <div class="pb-2 pt-3 px-3 rounded shadow bg-light">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
             </div>
         </div>
     </div>
 @endsection
 @section('btm-js')
-    <script src="{{asset('js/jquery.min.js')}}"
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('js/jquery.min.js') }}" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="text/javascript">
         "use strict";
 

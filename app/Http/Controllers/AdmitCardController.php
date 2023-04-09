@@ -154,6 +154,7 @@ class AdmitCardController extends Controller
     //added
     public function upload_image(AdmitCard $admitCard)
     {
+
         return view('admitCards.crop_image', compact('admitCard'));
     }
 

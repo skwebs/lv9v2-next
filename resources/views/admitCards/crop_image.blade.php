@@ -49,10 +49,10 @@
 @endsection
 
 @section('content')
-    <div class="container" style="overflow:hidden;">
+    <div class=" px-2 pt-5" style="overflow:hidden;">
         <div>
-            <div class="row">
-                <div class="col-md-6 mx-auto">
+            <div>
+                <div style="max-width: 600px" class=" mx-auto">
                     @if ($message = session('success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <div class="text-center h3"><strong>Success!</strong></div>
@@ -78,37 +78,67 @@
                             </div>
                         </div>
 
-                        <!--<div class="croppingPreview border"></div>-->
-                        <div class="collapse show " id="preview">
-                            <div class="card card-body">
+                        {{-- <div class="croppingPreview border"></div> --}}
+                        <div class="px-2 text-center d-md-none"><span><strong>Name:</strong>
+                                {{ $admitCard->name }}</span>&nbsp;&nbsp;&nbsp;<span><strong>Father's Name:
+                                </strong>{{ $admitCard->father }}</span></div>
+                        <div class="d-flex justify-content-center">
+                            <div style="width:250px" class="p-2 pr-0">
+                                <div class="collapse show " id="preview">
+                                    <div class="card card-body">
+                                        <div class="image_wrapper border">
+                                            <label class="label" data-toggle="tooltip" title="Change image">
+                                                <img id="avatar"
+                                                    src="@if ($admitCard->image == null) {{ asset('images/static/select-an-image.webp') }} @else {{ asset('uploads/images/students/' . $admitCard->image) }} @endif"
+                                                    alt="crop image">
+                                                <!--<img id="avatar" src="https://skwebs.github.io/cropper-and-php/assets/img/select-an-image.jpg" alt="crop image" >-->
+                                                <input type="file" class="visually-hidden" id="input" name="image"
+                                                    accept="image/png,image/jpeg,">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="collapse" id="cropSec">
+                                    <div class="card card-body">
+                                        <div class="image_wrapper border">
+                                            <img id="image"
+                                                src="https://skwebs.github.io/cropper-and-php/assets/img/select-an-image.jpg"
+                                                alt="crop image">
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-3">
+                                            <button type="button" id="cropCancelBtn"
+                                                class="btn btn-secondary">Cancel</button>
+                                            <button type="button" class="btn btn-primary" id="crop">Crop</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-4 d-md-block d-none">
                                 <h3>Image preview</h3>
-                                <div class="image_wrapper border">
-                                    <label class="label" data-toggle="tooltip" title="Change image">
-                                        <img id="avatar"
-                                            src="@if ($admitCard->image == null) {{ asset('images/static/select-an-image.webp') }} @else {{ asset('uploads/images/students/' . $admitCard->image) }} @endif"
-                                            alt="crop image">
-                                        <!--<img id="avatar" src="https://skwebs.github.io/cropper-and-php/assets/img/select-an-image.jpg" alt="crop image" >-->
-                                        <input type="file" class="visually-hidden" id="input" name="image"
-                                            accept="image/png,image/jpeg,">
-                                    </label>
-                                </div>
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <th>Name</th>
+                                        <td>{{ $admitCard->name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Father's Name</th>
+                                        <td>{{ $admitCard->father }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Mother's Name</th>
+                                        <td>{{ $admitCard->mother }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Class</th>
+                                        <td>{{ $admitCard->class }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Roll</th>
+                                        <td>{{ $admitCard->roll }}</td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
-                        <div class="collapse" id="cropSec">
-                            <div class="card card-body">
-                                <h3>Crop</h3>
-                                <div class="image_wrapper border">
-                                    <img id="image"
-                                        src="https://skwebs.github.io/cropper-and-php/assets/img/select-an-image.jpg"
-                                        alt="crop image">
-                                </div>
-                                <div class="d-flex pt-4">
-                                    <button type="button" id="cropCancelBtn" class="btn btn-secondary mx-5">Cancel</button>
-                                    <button type="button" class="btn btn-primary" id="crop">Crop</button>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -128,11 +158,6 @@
                         d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
                 </svg> &nbsp;
                 Add New Student</a>
-            <!--<fieldset>
-                                                                                              <legend>Console output</legend>
-                                                                                              <div id="console_out"></div>
-                                                                                            </fieldset>
-                                                                                            -->
         </div>
     </div>
     <script type="module">

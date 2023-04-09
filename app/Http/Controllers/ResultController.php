@@ -216,7 +216,8 @@ class ResultController extends Controller
 
 	public function stu_result(Request $req)
 	{
-		return view('results.stu_result');
+		$class = AdmitCard::distinct()->pluck('class');
+		return view('results.stu_result', compact('class'));
 	}
 	public function get_student_rolls(Request $req)
 	{
@@ -230,12 +231,12 @@ class ResultController extends Controller
 		}
 
 		$r = Result::select('id', 'roll')->where(['class' => $req->stu_class])->orderBy('roll')->get();
-		$select = '';
-		$select = '<select id="select-roll" class="form-select">';
-		$select .= '<option value="" >Select Roll No.</option>';
+		$select = '<label for="select-roll">Roll No.</label>';
+		$select .= '<select id="select-roll" class="form-select">';
+		$select .= '<option value="" selected disabled >Select Roll No.</option>';
 
 		foreach ($r as $roll) {
-			$select .= '<option value="' . $roll->id . '" >' . $roll->roll . '</option>';
+			$select .= '<option value="' . $roll->id . '" >Roll No. ' . $roll->roll . '</option>';
 		}
 		$select .= '</select>';
 		return $select;
@@ -366,5 +367,9 @@ class ResultController extends Controller
 	public function validate_result_field(StoreResultRequest $request)
 	{
 		$request->validated();
+	}
+
+	public function result_a4_page(){
+
 	}
 }
