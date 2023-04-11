@@ -11,11 +11,31 @@
 @section('js')
 @endsection
 
-@php
+{{-- @php
     $classes = ['Play', 'LKG', 'UKG', 'Nursery', 'Std.1', 'Std.2', 'Std.3', 'Std.4', 'Std.5'];
-@endphp
+@endphp --}}
 
 @section('content')
+    <a
+        href="{{ url()->current() }}?{{ http_build_query(request()->except('t', 'o')) }}&t={{ request('t') == 'asc' && request('o') == 'id' ? 'desc' : 'asc' }}&o=id">
+        ID
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
+            class="{{ request('t') == 'asc' && request('o') == 'id' ? 'rotate-180' : '' }}" style="width: 24px;">
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path d="{{ request('t') == 'asc' && request('o') == 'id' ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z' }}" />
+        </svg>
+    </a>
+
+    <a
+        href="{{ url()->current() }}?{{ http_build_query(request()->except('t', 'o')) }}&t={{ request('t') == 'asc' && request('o') == 'name' ? 'desc' : 'asc' }}&o=name">
+        Name
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
+            class="{{ request('t') == 'asc' && request('o') == 'name' ? 'rotate-180' : '' }}" style="width: 24px;">
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path d="{{ request('t') == 'asc' && request('o') == 'name' ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z' }}" />
+        </svg>
+    </a>
+
     <div class="container-fluid py-3">
         <form class="row mb-2" action="{{ route('result.index') }}">
             <div class="col">
@@ -53,7 +73,7 @@
                             <h2 class="text-center">
                                 @if (request()->query('class'))
                                     {{ request()->query('class') }}
-                                    @else
+                                @else
                                     All
                                 @endif Students List
                             </h2>
@@ -70,19 +90,70 @@
                     </div>
 
 
-
                     <div class="card-body  overflow-auto" style="max-height:70vh">
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
 
                                 <thead>
                                     <tr>
-                                        <th class="text-nowrap" scope="col">S.N.</th>
-                                        <th class="text-nowrap" scope="col">Id</th>
+                                        <th class="text-nowrap" scope="col">
+
+                                        </th>
+                                        <th class="text-nowrap" scope="col">
+                                            <a
+                                                href="{{ url()->current() }}?{{ http_build_query(request()->except('t', 'o')) }}&t={{ request('t') == 'asc' && request('o') == 'id' ? 'desc' : 'asc' }}&o=id">
+                                                ID
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
+                                                    class="{{ request('t') == 'asc' && request('o') == 'id' ? 'rotate-180' : '' }}"
+                                                    style="width: 24px;">
+                                                    <path fill="none" d="M0 0h24v24H0z" />
+                                                    <path
+                                                        d="{{ request('t') == 'asc' && request('o') == 'id' ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z' }}" />
+                                                </svg>
+                                            </a>
+                                        </th>
                                         <th class="text-nowrap" scope="col">Result</th>
-                                        <th class="text-nowrap" scope="col">Name</th>
-                                        <th class="text-nowrap" scope="col">Class</th>
-                                        <th class="text-nowrap" scope="col">Roll No.</th>
+                                        <th class="text-nowrap" scope="col">
+
+                                            <a
+                                                href="{{ url()->current() }}?{{ http_build_query(request()->except('t', 'o')) }}&t={{ request('t') == 'asc' && request('o') == 'name' ? 'desc' : 'asc' }}&o=name">
+                                                Name
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
+                                                    class="{{ request('t') == 'asc' && request('o') == 'name' ? 'rotate-180' : '' }}"
+                                                    style="width: 24px;">
+                                                    <path fill="none" d="M0 0h24v24H0z" />
+                                                    <path
+                                                        d="{{ request('t') == 'asc' && request('o') == 'name' ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z' }}" />
+                                                </svg>
+                                            </a>
+
+                                        </th>
+                                        <th class="text-nowrap" scope="col">
+                                            <a
+                                                href="{{ url()->current() }}?t={{ request('t') == 'asc' ? 'desc' : 'asc' }}&o=class_order">
+                                                Class
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
+                                                    class="{{ request('t') == 'asc' && request('o') == 'class_order' ? 'rotate-180' : '' }}">
+                                                    <path fill="none" d="M0 0h24v24H0z" />
+                                                    <path
+                                                        d="{{ request('t') == 'asc' && request('o') == 'class_order' ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z' }}" />
+                                                </svg>
+                                            </a>
+                                        </th>
+                                        <th class="text-nowrap" scope="col">
+
+                                            <a
+                                                href="{{ url()->current() }}?{{ http_build_query(request()->except('t', 'o')) }}&t={{ request('t') == 'asc' && request('o') == 'roll' ? 'desc' : 'asc' }}&o=roll">
+                                                Roll No.
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
+                                                    class="{{ request('t') == 'asc' && request('o') == 'roll' ? 'rotate-180' : '' }}"
+                                                    style="width: 24px;">
+                                                    <path fill="none" d="M0 0h24v24H0z" />
+                                                    <path
+                                                        d="{{ request('t') == 'asc' && request('o') == 'roll' ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z' }}" />
+                                                </svg>
+                                            </a>
+                                        </th>
                                         <th class="text-nowrap" scope="col">Father's Name</th>
                                         <th class="text-nowrap" scope="col">Added By</th>
                                         <th class="text-nowrap" scope="col">Edited By</th>

@@ -10,32 +10,38 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ResultController extends Controller
 {
-	private $classes;
+	private $lower_classes;
+	private $exist_classes;
 
 	public function __construct()
 	{
-		//$this->middleware('auth');
-
-		$this->classes = ['Play', 'Nursery', 'LKG', 'UKG'];
+		$this->lower_classes = ['Play', 'Nursery', 'LKG', 'UKG'];
+		$this->exist_classes = AdmitCard::distinct()->orderBy('class_order')->pluck('class');
 	}
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index(Request $req)
+	public function index(Request $request)
 	{
 		$result = AdmitCard::with('result');
-		if ($class = $req->query('class')) {
+		if ($class = $request->query('class')) {
 			$result->where('class', $class);
+		}
+
+		if ($request->has('o')) {
+			$result->orderBy($request->query('o'), $request->query('t'));
 		}
 		//$r = $results->get();
 
 		//$stu = Result::with('admitCard')->get();
 		//$results = AdmitCard::with('result')->get();
-		$results = $result->orderBy('roll')->get();
+		$results = $result->get();
 
-		return view('results.index', compact('results'));
+		$classes = $this->exist_classes;
+
+		return view('results.index', compact('results', 'classes'));
 	}
 
 	/**
@@ -45,9 +51,8 @@ class ResultController extends Controller
 	 */
 	public function create(Request $req)
 	{
-		//dd(url()->previous());
 		$stu = AdmitCard::find($req->query('stu_id'));
-		$classes = $this->classes;
+		$classes = $this->lower_classes;
 		$redirect_to = $req->query('redirect_to');
 		return view('results.create', compact('stu', 'classes'));
 	}
@@ -102,7 +107,7 @@ class ResultController extends Controller
 		// $stu = $result->with('admitCard'); //->admitCard;
 		// dd($stu->get());
 		$stu = AdmitCard::find($result->admit_card_id);
-		$classes = $this->classes;
+		$classes = $this->lower_classes;
 		return view('results.show', compact('result', 'stu', 'classes'));
 	}
 
@@ -123,7 +128,7 @@ class ResultController extends Controller
 	public function edit(Result $result)
 	{
 		$stu = AdmitCard::find($result->admit_card_id);
-		$classes = $this->classes;
+		$classes = $this->lower_classes;
 		return view('results.edit', compact('result', 'stu', 'classes'));
 	}
 
@@ -147,7 +152,7 @@ class ResultController extends Controller
 			'full_marks' => 'numeric',
 		]);
 
-		if (!in_array($request->query('class'), $this->classes)) {
+		if (!in_array($request->query('class'), $this->lower_classes)) {
 			$request->validate([
 				'science' => 'numeric',
 				'sst' => 'numeric',
@@ -216,7 +221,7 @@ class ResultController extends Controller
 
 	public function stu_result(Request $req)
 	{
-		$class = AdmitCard::distinct()->orderBy('class_order')->pluck('class');
+		$class = $this->exist_classes;
 		return view('results.stu_result', compact('class'));
 	}
 	public function get_student_rolls(Request $req)
@@ -246,14 +251,14 @@ class ResultController extends Controller
 	{
 		$result = Result::find($req->id);
 		$stu = AdmitCard::find($result->admit_card_id);
-		$classes = $this->classes;
+		$classes = $this->lower_classes;
 		return view('results.student_result_page', compact('result', 'stu', 'classes'));
 	}
 	public function print_marksheet($id)
 	{
 		$result = Result::find($id);
 		$stu = AdmitCard::find($result->admit_card_id);
-		$classes = $this->classes;
+		$classes = $this->lower_classes;
 		return view('results.student_result_page', compact('result', 'stu', 'classes'));
 	}
 
@@ -265,9 +270,9 @@ class ResultController extends Controller
 	    foreach($classes as $c){
 		    echo '<hr>'.$c;
 		    $p=1;
-		    $res2=$res->where(['class'=>$c])->orderByDesc('total')->get();
+		    $result=$res->where(['class'=>$c])->orderByDesc('total')->get();
 		    $t= "<table><tr><th>Roll No.</th><th>Marks</th><th>Position</th>";
-		    foreach($res2 as $r){
+		    foreach($result as $r){
 			    $t .= "<tr><td>{$r->roll}</td><td>{$r->total}</td><td>{$r->position}</td></tr>";
 			    if($req->query('set')=='pos'){
 				    $ru=Result::find($r->id);
@@ -281,76 +286,50 @@ class ResultController extends Controller
 	    }
     }*/
 
-	public function set_stu_position(Request $req)
+	public function set_stu_position(Request $request)
 	{
-		$classes = ['Play', 'Nursery', 'LKG', 'UKG', 'Std.1', 'Std.2', 'Std.3', 'Std.4'];
-		$res = new Result;
-		//$res = Result::with('admitCard');
-		$t = "<style type=\"text/css\">
+		$classes = $this->exist_classes; //['Play', 'Nursery', 'LKG', 'UKG', 'Std.1', 'Std.2', 'Std.3', 'Std.4'];
+		$result_instance = new Result;
+
+		$table = "<style type=\"text/css\">
 		    h2{
-		    margin:0;
-		    padding:0;
+		    	margin:0;
+		    	padding:0;
 		    }
 		    table, th, td {
-		    border: 1px solid black;
-		    border-collapse: collapse;
-		    padding:2px;
+		    	border: 1px solid black;
+		    	border-collapse: collapse;
+		    	padding:2px;
 		    }
 		    </style>";
-		$t .= "<table>";
+		$table .= "<table>";
 		foreach ($classes as $c) {
-			$t .= "<tr><th colspan=\"6\"><h2>{$c}</h2></th></tr>";
-			//echo "<h2>{$c}</h2>";
-			$p = 1;
-			$res2 = $res->with('admitCard')->where(['class' => $c])->orderByDesc('total')->get();
-			$t .= "<tr><th>Position</th>
+			$table .= "<tr><th colspan=\"6\"><h2>{$c}</h2></th></tr>";
+			$position = 1;
+			$result = $result_instance->with('admitCard')->where(['class' => $c])->orderByDesc('total')->get();
+			$table .= "<tr><th>Position</th>
 			    <th>Name</th>
 			    <th>Mother</th>
 			    <th>Father</th>
 			    <th>Roll No.</th><th>Marks</th>";
-			foreach ($res2 as $r) {
-				$t .= "<tr><td>{$r->position}</td>
+			foreach ($result as $r) {
+				$table .= "<tr><td>{$r->position}</td>
 				    <td>{$r->admitCard->name}</td>
 				    <td>{$r->admitCard->mother}</td>
 				    <td>{$r->admitCard->father}</td>
 				    <td>{$r->roll}</td><td>{$r->total}</td></tr>";
-				if ($req->query('set') == 'pos') {
+				if ($request->query('set') == 'position') {
 					$ru = Result::find($r->id);
-					$ru->position = $p;
+					$ru->position = $position;
 					$ru->update();
-					$p++;
+					$position++;
 				}
 			}
-			$t .= "</tr>";
+			$table .= "</tr>";
 		}
-		$t .= "</table>";
-		echo $t;
+		$table .= "</table>";
+		echo $table;
 	}
-
-	/*public function set_stu_position(Request $req)
-    {
-	    $classes = ['Play', 'Nursery', 'LKG','UKG','Std.1','Std.2','Std.3','Std.4'];
-	    $res = new Result;
-	    //$res = Result::with('admitCard');
-
-	    foreach($classes as $c){
-		    echo "<h2>{$c}</h2>";
-		    $p=1;
-		    $res2=$res->with('admitCard')->where(['class'=>$c])->orderByDesc('total')->get();
-		    $t= "<table><tr><th>Position</th><th>Name</th><th>Roll No.</th><th>Marks</th>";
-		    foreach($res2 as $r){
-			    $t .= "<tr><td>{$r->position}</td><td>{$r->admitCard->name}</td><td>{$r->roll}</td><td>{$r->total}</td></tr>";
-			    if($req->query('set')=='pos'){
-				    $ru=Result::find($r->id);
-				    $ru->position = $p;
-				    $ru->update();
-				    $p++;
-			    }
-		    }
-		    $t .= "</tr></table>";
-		    echo $t;
-	    }
-   }*/
 
 	public function all_result()
 	{
@@ -359,7 +338,7 @@ class ResultController extends Controller
 			->orderBy('position')
 			->get();
 
-		$classes = $this->classes;
+		$classes = $this->lower_classes;
 
 		return view('results.all_result', compact('results', 'classes'));
 	}

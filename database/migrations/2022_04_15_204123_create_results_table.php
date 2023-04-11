@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('admit_card_id')->constrained();
             $table->string('session');
             $table->string('class');
+            $table->integer('class_order');
             $table->string('roll');
             $table->json('marks');
             /*$table->integer('hindi');

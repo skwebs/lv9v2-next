@@ -44,7 +44,7 @@ Route::controller(ResultController::class)->group(function () {
 	Route::post('/student/get-student-rolls', 'get_student_rolls')->name('student.get_student_rolls');
 	Route::get('/student/marksheet', 'show_result')->name('student.marksheet');
 	Route::get('/student/{id}', 'print_marksheet')->name('print_ms');
-	Route::get('student', 'set_stu_position')->name('set_student_position');
+	Route::get('student', 'set_stu_position')->name('set_student_position')->middleware('auth');
 	Route::get('/all-result', 'all_result')->name('all_result');
 });
 Route::resource('result', ResultController::class)->middleware('auth');
