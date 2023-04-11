@@ -33,6 +33,7 @@ return new class extends Migration
             $table->integer('total');
             $table->string('total_text');
             $table->integer('full_marks');
+            $table->integer('position');
             $table->foreignId('uploaded_by_id')->nullable()->constrained('users');
             $table->softDeletes();
             $table->timestamps();

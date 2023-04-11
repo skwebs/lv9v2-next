@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('mobile');
             $table->string('address');
             $table->string('class');
+            $table->integer('class_order');
             //$table->enum('student_type',['Existing','New']);
             $table->bigInteger('roll');
             $table->string('image')->nullable();

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 
 
 Route::get('/', function () {
-    // return redirect()->route('admitCard.index');
+	// return redirect()->route('admitCard.index');
 	return view('home');
 });
 
@@ -32,7 +32,7 @@ Route::controller(AdmitCardController::class)->group(function () {
 
 	Route::get('/student/upload-image/{admitCard}', 'upload_image')->name('admitCard.upload_image');
 
-	Route::post('/studnet/save-image/{admitCard}', 'save_image')->name('admitCard.save_image');
+	Route::post('/student/save-image/{admitCard}', 'save_image')->name('admitCard.save_image');
 
 	Route::get('/admitCard/all', 'admit_cards')->name('admitCard.admit_cards');
 });
@@ -44,7 +44,7 @@ Route::controller(ResultController::class)->group(function () {
 	Route::post('/student/get-student-rolls', 'get_student_rolls')->name('student.get_student_rolls');
 	Route::get('/student/marksheet', 'show_result')->name('student.marksheet');
 	Route::get('/student/{id}', 'print_marksheet')->name('print_ms');
-	Route::get('student', 'set_stu_position');
+	Route::get('student', 'set_stu_position')->name('set_student_position');
 	Route::get('/all-result', 'all_result')->name('all_result');
 });
 Route::resource('result', ResultController::class)->middleware('auth');

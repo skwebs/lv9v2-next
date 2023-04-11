@@ -16,7 +16,7 @@ class ResultController extends Controller
 	{
 		//$this->middleware('auth');
 
-		$this->classes = ['Play', 'Nursery', 'LKG'];
+		$this->classes = ['Play', 'Nursery', 'LKG', 'UKG'];
 	}
 	/**
 	 * Display a listing of the resource.
@@ -216,7 +216,7 @@ class ResultController extends Controller
 
 	public function stu_result(Request $req)
 	{
-		$class = AdmitCard::distinct()->pluck('class');
+		$class = AdmitCard::distinct()->orderBy('class_order')->pluck('class');
 		return view('results.stu_result', compact('class'));
 	}
 	public function get_student_rolls(Request $req)
@@ -236,7 +236,7 @@ class ResultController extends Controller
 		$select .= '<option value="" selected disabled >Select Roll No.</option>';
 
 		foreach ($r as $roll) {
-			$select .= '<option value="' . $roll->id . '" >Roll No. ' . $roll->roll . '</option>';
+			$select .= '<option value="' . $roll->id . '" >' . $roll->roll . '</option>';
 		}
 		$select .= '</select>';
 		return $select;
@@ -367,9 +367,5 @@ class ResultController extends Controller
 	public function validate_result_field(StoreResultRequest $request)
 	{
 		$request->validated();
-	}
-
-	public function result_a4_page(){
-
 	}
 }
