@@ -16,25 +16,6 @@
 @endphp --}}
 
 @section('content')
-    <a
-        href="{{ url()->current() }}?{{ http_build_query(request()->except('t', 'o')) }}&t={{ request('t') == 'asc' && request('o') == 'id' ? 'desc' : 'asc' }}&o=id">
-        ID
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
-            class="{{ request('t') == 'asc' && request('o') == 'id' ? 'rotate-180' : '' }}" style="width: 24px;">
-            <path fill="none" d="M0 0h24v24H0z" />
-            <path d="{{ request('t') == 'asc' && request('o') == 'id' ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z' }}" />
-        </svg>
-    </a>
-
-    <a
-        href="{{ url()->current() }}?{{ http_build_query(request()->except('t', 'o')) }}&t={{ request('t') == 'asc' && request('o') == 'name' ? 'desc' : 'asc' }}&o=name">
-        Name
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
-            class="{{ request('t') == 'asc' && request('o') == 'name' ? 'rotate-180' : '' }}" style="width: 24px;">
-            <path fill="none" d="M0 0h24v24H0z" />
-            <path d="{{ request('t') == 'asc' && request('o') == 'name' ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z' }}" />
-        </svg>
-    </a>
 
     <div class="container-fluid py-3">
         <form class="row mb-2" action="{{ route('result.index') }}">
@@ -53,7 +34,6 @@
                 </a>
             </div>
         </form>
-
 
         <div class="row">
             <div class="d-flex flex-column justify-content-center">
