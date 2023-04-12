@@ -284,7 +284,7 @@ $qr .= json_encode($marks);
                         <td style="width:75px;padding-left:10px">
                             <img class="float-end" width="75px" height="75px"
                                 src="{{ asset('images/static/ama300.webp') }}" alt="Logo" srcset="" />
-                                {{-- <img class="float-end" width="75px" height="66px"
+                            {{-- <img class="float-end" width="75px" height="66px"
                                 src="{{ asset('images/static/ama-150x133-96.png') }}" alt="Logo" srcset="" /> --}}
                         </td>
                         <td style="width: 100%">
@@ -346,9 +346,9 @@ $qr .= json_encode($marks);
                         <td style="p-0" rowspan="5" width="150">
                             {{-- src="{{ asset('uploads/images/students/' . $stu->image) }}" --}}
                             <img class="border border-dark" width="100%"
-                                src="@if ($stu->image === "") {{ asset('images/static/paste-image.webp') }} @else {{ asset('uploads/images/students/' . $stu->image) }} @endif"
+                                src="@if ($stu->image === '') {{ asset('images/static/paste-image.webp') }} @else {{ asset('uploads/images/students/' . $stu->image) }} @endif"
                                 alt="Student Image">
-                                {{-- {{$stu->image}} --}}
+                            {{-- {{$stu->image}} --}}
                         </td>
                     </tr>
                     <tr>
@@ -459,20 +459,19 @@ $qr .= json_encode($marks);
                                     <th class="text-start">Total</th>
                                     <th>{{ $result->full_marks }}</th>
                                     <th>
-                                        <?php
-                                        if (!in_array($stu->class, $classes)) {
-                                            echo $result->total - ($result->marks->science_oral + $result->marks->sst_oral);
-                                        } else {
-                                            echo $result->total;
-                                        } ?>
+
+                                        @if (!in_array($stu->class, $classes))
+                                            {{ $result->total - ($result->marks->science_oral + $result->marks->sst_oral) }}
+                                        @else
+                                            {{ $result->total }}
+                                        @endif
                                     </th>
                                     <th>
-                                        <?php
-                                        if (!in_array($stu->class, $classes)) {
-                                            echo $result->marks->science_oral + $result->marks->sst_oral;
-                                        } else {
-                                            echo 'NA';
-                                        } ?>
+                                        @if (!in_array($stu->class, $classes))
+                                            {{ $result->marks->science_oral + $result->marks->sst_oral }}
+                                        @else
+                                            NA
+                                        @endif
                                     </th>
 
                                     <th>{{ $result->total }}</th>
@@ -542,9 +541,7 @@ $qr .= json_encode($marks);
                     <tr>
                         <td>{{ $result->total }}/{{ $result->full_marks }}</td>
                         <td>
-                            <?php
-                            echo round(($result->total * 100) / $result->full_marks, 2);
-                            ?>%
+                            {{ round(($result->total * 100) / $result->full_marks, 2) }}%
                         </td>
                         <td>{{ res(($result->total * 100) / $result->full_marks)['g'] }}</td>
                         <td>{{ $result->position }}</td>

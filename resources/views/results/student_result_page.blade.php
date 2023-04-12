@@ -402,20 +402,19 @@ $qr .= json_encode($marks);
                                     <th class="text-start">Total</th>
                                     <th>{{ $result->full_marks }}</th>
                                     <th>
-                                        <?php
-                                        if (!in_array($stu->class, $classes)) {
-                                            echo $result->total - ($result->marks->science_oral + $result->marks->sst_oral);
-                                        } else {
-                                            echo $result->total;
-                                        } ?>
+
+                                        @if (!in_array($stu->class, $classes))
+                                            {{ $result->total - ($result->marks->science_oral + $result->marks->sst_oral) }}
+                                        @else
+                                            {{ $result->total }}
+                                        @endif
                                     </th>
                                     <th>
-                                        <?php
-                                        if (!in_array($stu->class, $classes)) {
-                                            echo $result->marks->science_oral + $result->marks->sst_oral;
-                                        } else {
-                                            echo 'NA';
-                                        } ?>
+                                        @if (!in_array($stu->class, $classes))
+                                            {{ $result->marks->science_oral + $result->marks->sst_oral }}
+                                        @else
+                                            NA
+                                        @endif
                                     </th>
 
                                     <th>{{ $result->total }}</th>
@@ -485,9 +484,7 @@ $qr .= json_encode($marks);
                     <tr>
                         <td>{{ $result->total }}/{{ $result->full_marks }}</td>
                         <td>
-                            <?php
-                            echo round(($result->total * 100) / $result->full_marks, 2);
-                            ?>%
+                            {{ round(($result->total * 100) / $result->full_marks, 2) }}%
                         </td>
                         <td>{{ res(($result->total * 100) / $result->full_marks)['g'] }}</td>
                         <td>{{ $result->position }}</td>
