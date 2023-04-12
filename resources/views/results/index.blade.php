@@ -16,29 +16,6 @@
 @endphp --}}
 
 @section('content')
-    <a
-        href="{{ url()->current() }}?{{ http_build_query(request()->except('t', 'o')) }}&t={{ request('t') == 'asc' && request('o') == 'id' ? 'desc' : 'asc' }}&o=id">
-        {{ request('o') == 'id' && (request('t') == 'asc' || request('t') == 'desc') ? (request('t') == 'asc' ? 'Sort Descending by ID' : 'Sort Ascending by ID') : 'Sort by ID' }}
-        @if (request('o') == 'id' && (request('t') == 'asc' || request('t') == 'desc'))
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
-                class="{{ request('t') == 'asc' && request('o') == 'id' ? 'rotate-180' : '' }}" style="width: 24px;">
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path d="{{ request('t') == 'asc' && request('o') == 'id' ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z' }}" />
-            </svg>
-        @endif
-    </a>
-
-    <a
-        href="{{ url()->current() }}?{{ http_build_query(request()->except('t', 'o')) }}&t={{ request('t') == 'asc' && request('o') == 'name' ? 'desc' : 'asc' }}&o=name">
-        {{ request('o') == 'name' && (request('t') == 'asc' || request('t') == 'desc') ? (request('t') == 'asc' ? 'Sort Descending by Name' : 'Sort Ascending by Name') : 'Sort by Name' }}
-        @if (request('o') == 'name' && (request('t') == 'asc' || request('t') == 'desc'))
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
-                class="{{ request('t') == 'asc' && request('o') == 'name' ? 'rotate-180' : '' }}" style="width: 24px;">
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path d="{{ request('t') == 'asc' && request('o') == 'name' ? 'M7 14l5-5 5 5z' : 'M7 10l5 5 5-5z' }}" />
-            </svg>
-        @endif
-    </a>
     <div class="container-fluid py-3">
         <form class="row mb-2" action="{{ route('result.index') }}">
             <div class="col">
