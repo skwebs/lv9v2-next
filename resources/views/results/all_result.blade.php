@@ -265,7 +265,6 @@ function res($m)
         QRDATA;
         $marks = (array) $r->marks;
         $qr .= json_encode($marks);
-
         ?>
         <div class="page">
 
@@ -356,9 +355,8 @@ function res($m)
                                 <td style="p-0" rowspan="5" width="150">
                                     {{-- src="{{ asset('uploads/images/students/' . $r->admitCard->image) }}" --}}
                                     <img class="border border-dark" width="100%"
-                                        src="@if ($r->admitCard->image === '') {{ asset('images/static/paste-image.webp') }} @else {{ asset('uploads/images/students/' . $r->admitCard->image) }} @endif"
+                                        src="{{ $r->admitCard->image ? asset('uploads/images/students/' . $r->admitCard->image) : asset('images/static/paste-image.webp') }}"
                                         alt="Student Image">
-                                    {{-- {{$r->admitCard->image}} --}}
                                 </td>
                             </tr>
                             <tr>

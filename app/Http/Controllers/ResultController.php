@@ -288,7 +288,7 @@ class ResultController extends Controller
 
 	public function set_stu_position(Request $request)
 	{
-		$classes = $this->exist_classes; //['Play', 'Nursery', 'LKG', 'UKG', 'Std.1', 'Std.2', 'Std.3', 'Std.4'];
+		$classes = $this->exist_classes;
 		$result_instance = new Result;
 
 		$table = "<style type=\"text/css\">
@@ -318,7 +318,7 @@ class ResultController extends Controller
 				    <td>{$r->admitCard->mother}</td>
 				    <td>{$r->admitCard->father}</td>
 				    <td>{$r->roll}</td><td>{$r->total}</td></tr>";
-				if ($request->query('set') == 'position') {
+				if ($request->query('set') === 'position') {
 					$ru = Result::find($r->id);
 					$ru->position = $position;
 					$ru->update();

@@ -346,7 +346,7 @@ $qr .= json_encode($marks);
                         <td style="p-0" rowspan="5" width="150">
                             {{-- src="{{ asset('uploads/images/students/' . $stu->image) }}" --}}
                             <img class="border border-dark" width="100%"
-                                src="@if ($stu->image === '') {{ asset('images/static/paste-image.webp') }} @else {{ asset('uploads/images/students/' . $stu->image) }} @endif"
+                                src="{{ $stu->image ? asset('uploads/images/students/' . $stu->image) : asset('images/static/paste-image.webp') }}"
                                 alt="Student Image">
                             {{-- {{$stu->image}} --}}
                         </td>

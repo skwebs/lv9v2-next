@@ -284,7 +284,7 @@ $qr .= json_encode($marks);
                     </tr>
                     <tr>
                         <td>
-                            <h6 class="text-center">ACADEMIC SESSION : 2021-22</h6>
+                            <h6 class="text-center">ACADEMIC SESSION : 2022-23</h6>
                         </td>
                     </tr>
                 </table>
