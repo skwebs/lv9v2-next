@@ -272,7 +272,8 @@ $qr .= json_encode($marks);
                     <span class="ps-2">
                         <strong>Estd. : 2017</strong>
                     </span>
-                    <span>CIN: <strong>U85300BR2021NPL054631</strong>
+                    <span>
+                        <strong>AN ISO 9001:2015 CERTIFIED SCHOOL</strong>
                     </span>
                     <span class="pe-2">
                         <strong>Reg. No. 054631</strong>
