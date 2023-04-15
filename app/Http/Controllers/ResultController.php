@@ -347,4 +347,6 @@ class ResultController extends Controller
 	{
 		$request->validated();
 	}
+
+
 }

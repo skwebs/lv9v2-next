@@ -1,157 +1,3 @@
-<?php
-//$r = (array) $result;echo json_encode($r);exit;
-
-function numToText($num)
-{
-    $ones = [
-        0 => 'zero',
-        1 => 'one',
-        2 => 'two',
-        3 => 'three',
-        4 => 'four',
-        5 => 'five',
-        6 => 'six',
-        7 => 'seven',
-        8 => 'eight',
-        9 => 'nine',
-        10 => 'ten',
-        11 => 'eleven',
-        12 => 'twelve',
-        13 => 'thirteen',
-        14 => 'fourteen',
-        15 => 'fifteen',
-        16 => 'sixteen',
-        17 => 'seventeen',
-        18 => 'eighteen',
-        19 => 'nineteen',
-        '014' => 'fourteen',
-    ];
-    $tens = [
-        0 => 'zero',
-        1 => 'ten',
-        2 => 'twenty',
-        3 => 'thirty',
-        4 => 'forty',
-        5 => 'fifty',
-        6 => 'sixty',
-        7 => 'seventy',
-        8 => 'eighty',
-        9 => 'ninety',
-    ];
-    $hundreds = ['hundred', 'thousand', 'million', 'billion', 'trillion', 'quardrillion']; /*limit t quadrillion */
-    if ($num == 0) {
-        return $ones[0];
-    } else {
-        $num = number_format($num, 2, '.', ',');
-        $num_arr = explode('.', $num);
-        $wholenum = $num_arr[0];
-        $decnum = $num_arr[1];
-        $whole_arr = array_reverse(explode(',', $wholenum));
-        krsort($whole_arr, 1);
-        $rettxt = '';
-        foreach ($whole_arr as $key => $i) {
-            while (substr($i, 0, 1) == '0') {
-                $i = substr($i, 1, 5);
-            }
-            if ($i < 20) {
-                /* echo "getting:".$i; */
-                $rettxt .= $ones[$i];
-            } elseif ($i < 100) {
-                if (substr($i, 0, 1) != '0') {
-                    $rettxt .= $tens[substr($i, 0, 1)];
-                }
-                if (substr($i, 1, 1) != '0') {
-                    $rettxt .= ' ' . $ones[substr($i, 1, 1)];
-                }
-            } else {
-                if (substr($i, 0, 1) != '0') {
-                    $rettxt .= $ones[substr($i, 0, 1)] . ' ' . $hundreds[0];
-                }
-                if (substr($i, 1, 1) != '0') {
-                    $rettxt .= ' ' . $tens[substr($i, 1, 1)];
-                }
-                if (substr($i, 2, 1) != '0') {
-                    $rettxt .= ' ' . $ones[substr($i, 2, 1)];
-                }
-            }
-            if ($key > 0) {
-                $rettxt .= ' ' . $hundreds[$key] . ' ';
-            }
-        }
-        if ($decnum > 0) {
-            $rettxt .= ' and ';
-            if ($decnum < 20) {
-                $rettxt .= $ones[$decnum];
-            } elseif ($decnum < 100) {
-                $rettxt .= $tens[substr($decnum, 0, 1)];
-                $rettxt .= ' ' . $ones[substr($decnum, 1, 1)];
-            }
-        }
-        return $rettxt;
-    }
-}
-?>
-
-
-
-<?php
-
-function res($m)
-{
-    if ($m > 90) {
-        return [
-            'g' => 'A+',
-            'r' => 'Result is excellent. Keep it up.',
-            'c' => 'success text-light',
-        ];
-    } elseif ($m > 80) {
-        return [
-            'g' => 'A',
-            'r' => 'Result is best but need keep it up.',
-            'c' => 'success text-light',
-        ];
-    } elseif ($m > 70) {
-        return [
-            'g' => 'B+',
-            'r' => 'Result is better Need improve & keep it up.',
-            'c' => 'success text-light',
-        ];
-    } elseif ($m > 60) {
-        return [
-            'g' => 'B',
-            'r' => 'Result is good but not fair. Increase hard work.',
-            'c' => 'warning',
-        ];
-    } elseif ($m > 50) {
-        return [
-            'g' => 'C+',
-            'r' => 'Result is average! Increase hard work.',
-            'c' => 'warning',
-        ];
-    } elseif ($m > 40) {
-        return [
-            'g' => 'C',
-            'r' => 'Result is below to average. Do hard work to improve it.',
-            'c' => 'warning',
-        ];
-    } elseif ($m > 30) {
-        return [
-            'g' => 'D',
-            'r' => 'Result is poor. Need much hard work to improve it.',
-            'c' => 'danger text-light',
-        ];
-    } else {
-        return [
-            'g' => 'E',
-            'r' => 'Result is very poor. Need very much hard work to improve it.',
-            'c' => 'danger text-light',
-        ];
-    }
-}
-
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -412,7 +258,7 @@ function res($m)
                                             <td>{{ $r->marks->english }}</td>
                                             <td>NA</td>
                                             <td>{{ $r->marks->english }}</td>
-                                            <td>{{ res($r->marks->english)['g'] }}</td>
+                                            <td>{{ resultDetails($r->marks->english)['g'] }}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-start">Hindi</th>
@@ -420,7 +266,7 @@ function res($m)
                                             <td>{{ $r->marks->hindi }}</td>
                                             <td>NA</td>
                                             <td>{{ $r->marks->hindi }}</td>
-                                            <td>{{ res($r->marks->hindi)['g'] }}</td>
+                                            <td>{{ resultDetails($r->marks->hindi)['g'] }}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-start">Maths</th>
@@ -428,7 +274,7 @@ function res($m)
                                             <td>{{ $r->marks->maths }}</td>
                                             <td>NA</td>
                                             <td>{{ $r->marks->maths }}</td>
-                                            <td>{{ res($r->marks->maths)['g'] }}</td>
+                                            <td>{{ resultDetails($r->marks->maths)['g'] }}</td>
                                         </tr>
                                         @if (!in_array($r->admitCard->class, $classes))
                                             <tr>
@@ -437,7 +283,8 @@ function res($m)
                                                 <td>{{ $r->marks->science }}</td>
                                                 <td>{{ $r->marks->science_oral }}</td>
                                                 <td>{{ $r->marks->science + $r->marks->science_oral }}</td>
-                                                <td>{{ res($r->marks->science + $r->marks->science_oral)['g'] }}</td>
+                                                <td>{{ resultDetails($r->marks->science + $r->marks->science_oral)['g'] }}
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th class="text-start">S.St</th>
@@ -453,7 +300,7 @@ function res($m)
                                                 <td>{{ $r->marks->computer }}</td>
                                                 <td>NA</td>
                                                 <td>{{ $r->marks->computer }}</td>
-                                                <td>{{ res($r->marks->computer)['g'] }}</td>
+                                                <td>{{ resultDetails($r->marks->computer)['g'] }}</td>
                                             </tr>
                                             <tr>
                                                 <th class="text-start">GK</th>
@@ -461,7 +308,7 @@ function res($m)
                                                 <td>{{ $r->marks->gk }}</td>
                                                 <td>NA</td>
                                                 <td>{{ $r->marks->gk }}</td>
-                                                <td>{{ res($r->marks->gk)['g'] }}</td>
+                                                <td>{{ resultDetails($r->marks->gk)['g'] }}</td>
                                             </tr>
                                         @endif
                                         <tr>
@@ -485,7 +332,7 @@ function res($m)
                                             </th>
 
                                             <th>{{ $r->total }}</th>
-                                            <td>{{ res(($r->total * 100) / $r->full_marks)['g'] }}</td>
+                                            <td>{{ resultDetails(($r->total * 100) / $r->full_marks)['g'] }}</td>
                                         </tr>
                                         <tr>
                                             <td colspan="5" class="text-start ps-5">
@@ -497,7 +344,7 @@ function res($m)
                                                     (Drawing)
                                                 </strong>
                                                 Marks: <strong>{{ $r->marks->drawing }}</strong> &nbsp;| Grade:
-                                                <strong>{{ res($r->marks->drawing)['g'] }}</strong>
+                                                <strong>{{ resultDetails($r->marks->drawing)['g'] }}</strong>
                                             </td>
                                         </tr>
 
@@ -522,9 +369,21 @@ function res($m)
                                                         <td class="text-center">Grade</td>
                                                         <td>:</td>
                                                         <td class="pe-2 py-2">
-                                                            {{ res(($r->total * 100) / $r->full_marks)['g'] }}</td>
+                                                            {{ resultDetails(($r->total * 100) / $r->full_marks)['g'] }}
+                                                        </td>
                                                     </tr>
                                                 </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table class="mx-auto" style="width: 100%">
+                                        <tr>
+                                            <td class="px-5"><strong>Remarks :</strong>
+                                                {{ resultDetails(($r->total * 100) / $r->full_marks)['r'] }}
                                             </td>
                                         </tr>
                                     </table>
@@ -558,7 +417,7 @@ function res($m)
                                     echo round(($r->total * 100) / $r->full_marks, 2);
                                     ?>%
                                 </td>
-                                <td>{{ res(($r->total * 100) / $r->full_marks)['g'] }}</td>
+                                <td>{{ resultDetails(($r->total * 100) / $r->full_marks)['g'] }}</td>
                                 <td>{{ $r->position }}</td>
                             </tr>
                         </table>
