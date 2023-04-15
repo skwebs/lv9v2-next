@@ -20,12 +20,12 @@
                 let sc = parseInt(document.querySelector("#science").value) || 0;
                 let sst = parseInt(document.querySelector("#sst").value) || 0;
                 let comp = parseInt(document.querySelector("#computer").value) || 0;
-                let gk = parseInt(document.querySelector("#computer").value) || 0;
+                let gk = parseInt(document.querySelector("#gk").value) || 0;
                 let science_oral = parseInt(document.querySelector("#science_oral").value) || 0;
                 let sst_oral = parseInt(document.querySelector("#sst_oral").value) || 0;
 
                 document.querySelector("#total").value = eng + hin + maths + sc + sst + comp + gk + science_oral + sst_oral;
-                document.querySelector("#full_marks").value = 600;
+                document.querySelector("#full_marks").value = 700;
 
             }
         </script>
@@ -262,8 +262,7 @@
                                     <input id="gk" type="number"
                                         class="form-control @error('gk') is-invalid @enderror" name="gk"
                                         onkeyup="totalMarks()" placeholder="GK" min="0" max="100"
-                                        value="{{ old('gk', $result->marks->gk) }}" required
-                                        autocomplete="gk">
+                                        value="{{ old('gk', $result->marks->gk) }}" required autocomplete="gk">
 
                                     @error('gk')
                                         <span class="invalid-feedback" role="alert">

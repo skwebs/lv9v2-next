@@ -520,6 +520,17 @@ $qr .= json_encode($marks);
                         </td>
                     </tr>
                     <tr>
+                        <td>
+                            <table class="mx-auto" style="width: 100%">
+                                <tr>
+                                    <td class="px-5"><strong>Remarks :</strong>
+                                        {{ res(($r->total * 100) / $r->full_marks)['r'] }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="2" class="pb-0 text-center">
                             <span style="font-size: 11px;"
                                 class="bg-light border-bottom d-inline-block border-secondary">
