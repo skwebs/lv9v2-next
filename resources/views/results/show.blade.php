@@ -524,7 +524,7 @@ $qr .= json_encode($marks);
                             <table class="mx-auto" style="width: 100%">
                                 <tr>
                                     <td class="px-5"><strong>Remarks :</strong>
-                                        {{ res(($r->total * 100) / $r->full_marks)['r'] }}
+                                        {{ res(($result->total * 100) / $result->full_marks)['r'] }}
                                     </td>
                                 </tr>
                             </table>
